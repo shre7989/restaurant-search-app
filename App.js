@@ -9,7 +9,7 @@ const navigator = createStackNavigator(
   {
     initialRouteName: "SearchScreen",
     defaultNavigationOptions: {
-      title: "Foodie",
+      title: "Foodie 🍟",
     },
   }
 );
