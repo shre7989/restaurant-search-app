@@ -1,26 +1,15 @@
-import { Image, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
-import yelp from "../api/yelp";
 import SearchResultList from "../components/SearchResultList";
+import useResults from "../hooks/useResults";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 const SearchScreen = () => {
   const [searchText, setSearchText] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const searchYelpApi = async () => {
-    try {
-      const res = await yelp.get("businesses/search", {
-        params: {
-          limit: 10,
-          term: searchText,
-          location: "san jose",
-        },
-      });
-      setSearchResults(res.data.businesses);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const [searchYelpApi, searchResults] = useResults();
 
   return (
     <View style={styles.container}>
@@ -30,11 +19,18 @@ const SearchScreen = () => {
         onSearchSubmit={searchYelpApi}
       />
       {searchResults.length !== 0 ? (
-        <View style={styles.resultlistsContainer}>
-          <SearchResultList list={searchResults} type="distance" />
-          <SearchResultList list={searchResults} type="rating" />
-          <SearchResultList list={searchResults} type="price" />
-        </View>
+        <FlatList
+          data={sortListByType(searchResults)}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item, index }) => (
+            <SearchResultList
+              list={item.list}
+              key={index}
+              icon={item.icon}
+              title={item.title}
+            />
+          )}
+        />
       ) : (
         <View style={styles.resultlistsContainer}>
           <Image
@@ -79,3 +75,40 @@ const styles = StyleSheet.create({
     transform: [{ translateY: -170 }],
   },
 });
+//functions
+function sortListByType(list) {
+  let sortedByDistance, sortedByRating, sortedByPrice;
+
+  sortedByDistance = [...list].sort(
+    (business1, business2) => business1.distance - business2.distance
+  );
+  sortedByRating = [...list].sort(
+    (business1, business2) => business2.rating - business1.rating
+  );
+  sortedByPrice = [...list].sort(
+    (business1, business2) => business1.price?.length - business2.price?.length
+  );
+  return [
+    {
+      list: sortedByDistance,
+      title: "Fastest near you",
+      icon: (
+        <MaterialCommunityIcons
+          name="map-marker-radius"
+          size={20}
+          color="black"
+        />
+      ),
+    },
+    {
+      list: sortedByRating,
+      title: "Top rated",
+      icon: <MaterialIcons name="stars" size={20} color="black" />,
+    },
+    {
+      list: sortedByPrice,
+      title: "Save budget",
+      icon: <Ionicons name="pricetags" size={20} color="black" />,
+    },
+  ];
+}

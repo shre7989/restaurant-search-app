@@ -14,14 +14,14 @@ const RestaurantDetails = ({ business }) => {
     <View style={styles.container}>
       <View>
         <Text style={styles.title}>
-          {business.is_closed ? "⛔" : ""} {business.name}
+          {business.is_closed ? "⛔" : "✅"} {business.name}
         </Text>
         <Text style={styles.secondaryTitle}>
           {distance} mi / {rating}{" "}
           <Ionicons name="star" size={14} color="gold" /> / {price}
         </Text>
       </View>
-      <View>
+      <View style={styles.love}>
         <Ionicons
           name="heart"
           size={24}
@@ -37,6 +37,7 @@ export default RestaurantDetails;
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 10,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -54,6 +55,9 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 10,
     color: "#bcbcbc",
+  },
+  love: {
+    alignSelf: "flex-start",
   },
 });
 

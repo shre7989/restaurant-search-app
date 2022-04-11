@@ -1,14 +1,22 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import RestaurantDetails from "./RestaurantDetails";
+import OrderTypeDetails from "./OrderTypeDetails";
 
 const SearchResultCard = ({ business }) => {
+  const hasDelivery =
+    business.transactions.filter((item) => item === "delivery").length > 0;
+  const hasPickup =
+    business.transactions.filter((item) => item === "pickup").length > 0;
   return (
-    <View style={styles.container}>
-      <Image style={styles.img} source={{ uri: business.image_url }} />
-      {/* Details Container */}
-      <RestaurantDetails business={business} />
-    </View>
+    <TouchableOpacity>
+      <View style={styles.container}>
+        <Image style={styles.img} source={{ uri: business.image_url }} />
+        {/* Details Container */}
+        <RestaurantDetails business={business} />
+        <OrderTypeDetails hasDelivery={hasDelivery} hasPickup={hasPickup} />
+      </View>
+    </TouchableOpacity>
   );
 };
 
@@ -19,7 +27,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   img: {
-    height: 120,
+    height: 160,
     width: 300,
     borderRadius: 5,
   },

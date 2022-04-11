@@ -24,7 +24,7 @@ const SearchBar = ({ searchText, onSearchTextChange, onSearchSubmit }) => {
           value={searchText}
           onChangeText={(newTerm) => onSearchTextChange(newTerm)}
           onSubmitEditing={() => {
-            onSearchSubmit();
+            onSearchSubmit(searchText);
             setSearchFocus(false);
           }}
           clearButtonMode="always"
@@ -34,14 +34,15 @@ const SearchBar = ({ searchText, onSearchTextChange, onSearchSubmit }) => {
         <Ionicons name="search" style={styles.icon} />
       </View>
       {searchFocus ? (
-        <Button
+        <TouchableOpacity
           style={styles.btn}
-          title={"cancel"}
           onPress={() => {
             Keyboard.dismiss();
             setSearchFocus(false);
           }}
-        />
+        >
+          <Text style={styles.btnText}>Cancel</Text>
+        </TouchableOpacity>
       ) : null}
     </View>
   );
@@ -78,7 +79,11 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   btn: {
-    flex: 0.1,
+    flex: 0.2,
+  },
+  btnText: {
     color: "red",
+    fontWeight: "bold",
+    fontSize: 15,
   },
 });
