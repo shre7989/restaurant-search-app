@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import SearchBar from "../components/SearchBar";
 import yelp from "../api/yelp";
@@ -36,7 +36,13 @@ const SearchScreen = () => {
           <SearchResultList list={searchResults} type="price" />
         </View>
       ) : (
-        <Text>No Results Found</Text>
+        <View style={styles.resultlistsContainer}>
+          <Image
+            source={require("../assets/images/noodle.gif")}
+            style={styles.img}
+          />
+          <Text style={styles.text}>Let's get some food...</Text>
+        </View>
       )}
     </View>
   );
@@ -54,5 +60,22 @@ const styles = StyleSheet.create({
   },
   resultlistsContainer: {
     flex: 1,
+  },
+  img: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 8,
+    resizeMode: "contain",
+    height: 150,
+    width: 200,
+  },
+  text: {
+    flex: 2,
+    fontSize: 20,
+    fontWeight: "900",
+    color: "lightgrey",
+    alignSelf: "flex-start",
+    transform: [{ translateY: -170 }],
   },
 });
