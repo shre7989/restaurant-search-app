@@ -13,7 +13,9 @@ const RestaurantDetails = ({ business }) => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.title}>{business.name}</Text>
+        <Text style={styles.title}>
+          {business.is_closed ? "⛔" : ""} {business.name}
+        </Text>
         <Text style={styles.secondaryTitle}>
           {distance} mi / {rating}{" "}
           <Ionicons name="star" size={14} color="gold" /> / {price}
