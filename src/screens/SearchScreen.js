@@ -1,4 +1,11 @@
-import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import SearchResultList from "../components/SearchResultList";
@@ -19,18 +26,29 @@ const SearchScreen = () => {
         onSearchSubmit={searchYelpApi}
       />
       {searchResults.length !== 0 ? (
-        <FlatList
-          data={sortListByType(searchResults)}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item, index }) => (
-            <SearchResultList
-              list={item.list}
-              key={index}
-              icon={item.icon}
-              title={item.title}
-            />
-          )}
-        />
+        <ScrollView style={styles.resultlistsContainer}>
+          <SearchResultList
+            list={sortListByDistance(searchResults)}
+            title="Fastest Near You"
+            icon={
+              <MaterialCommunityIcons
+                name="map-marker-radius"
+                size={20}
+                color="black"
+              />
+            }
+          />
+          <SearchResultList
+            list={sortListByRating(searchResults)}
+            title="Top Rated"
+            icon={<MaterialIcons name="stars" size={20} color="black" />}
+          />
+          <SearchResultList
+            list={sortListByPrice(searchResults)}
+            title="Save Budget"
+            icon={<Ionicons name="pricetags" size={20} color="black" />}
+          />
+        </ScrollView>
       ) : (
         <View style={styles.resultlistsContainer}>
           <Image
@@ -75,40 +93,25 @@ const styles = StyleSheet.create({
     transform: [{ translateY: -170 }],
   },
 });
-//functions
-function sortListByType(list) {
-  let sortedByDistance, sortedByRating, sortedByPrice;
 
-  sortedByDistance = [...list].sort(
+//functions
+function sortListByDistance(list) {
+  let sortedByDistance = [...list].sort(
     (business1, business2) => business1.distance - business2.distance
   );
-  sortedByRating = [...list].sort(
+  return sortedByDistance;
+}
+
+function sortListByRating(list) {
+  let sortedByRating = [...list].sort(
     (business1, business2) => business2.rating - business1.rating
   );
-  sortedByPrice = [...list].sort(
+  return sortedByRating;
+}
+
+function sortListByPrice(list) {
+  let sortedByPrice = [...list].sort(
     (business1, business2) => business1.price?.length - business2.price?.length
   );
-  return [
-    {
-      list: sortedByDistance,
-      title: "Fastest near you",
-      icon: (
-        <MaterialCommunityIcons
-          name="map-marker-radius"
-          size={20}
-          color="black"
-        />
-      ),
-    },
-    {
-      list: sortedByRating,
-      title: "Top rated",
-      icon: <MaterialIcons name="stars" size={20} color="black" />,
-    },
-    {
-      list: sortedByPrice,
-      title: "Save budget",
-      icon: <Ionicons name="pricetags" size={20} color="black" />,
-    },
-  ];
+  return sortedByPrice;
 }
