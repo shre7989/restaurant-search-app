@@ -7,8 +7,8 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import SearchBar from "../components/SearchBar";
-import SearchResultList from "../components/SearchResultList";
+import SearchBar from "../components/SearchScreenComponents/SearchBar";
+import SearchResultList from "../components/SearchScreenComponents/SearchResultList";
 import useResults from "../hooks/useResults";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     height: "100%",
-    alignSelf: "stretch",
   },
   resultlistsContainer: {
     flex: 1,

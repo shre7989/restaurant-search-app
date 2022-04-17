@@ -21,8 +21,6 @@ const SearchResultList = ({ list, title, icon }) => {
   );
 };
 
-export default SearchResultList;
-
 const styles = StyleSheet.create({
   container: {
     width: "100%",
@@ -43,3 +41,5 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
 });
+
+export default SearchResultList;
