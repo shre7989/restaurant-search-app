@@ -3,6 +3,7 @@ import React from "react";
 import RestaurantDetails from "./RestaurantDetails";
 import OrderTypeDetails from "./OrderTypeDetails";
 import { withNavigation } from "react-navigation";
+import { FontAwesome } from "@expo/vector-icons";
 
 const SearchResultCard = ({ business, navigation }) => {
   const hasDelivery =
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   img: {
-    height: 200,
+    height: 160,
     width: 350,
     borderRadius: 5,
   },
